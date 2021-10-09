@@ -81,6 +81,42 @@ public class ConnectionTest {
         Assert.assertNotNull(conn);
     }
 
+    // 方式四 -> 可以仅仅加载驱动, 而不显示的注册驱动, 也可以
+    @Test
+    public void testConnection4() throws Exception {
+
+        // 1. 提供三个基本信息
+        String url = "jdbc:mysql://localhost:3306/test";
+        String user = "root";
+        String password = "root";
+
+        // 2. 获取Driver实现类的对象
+        Class.forName("com.mysql.jdbc.Driver");
+
+//        Driver driver = (Driver) clazz.newInstance();
+        // 注册驱动
+//        DriverManager.registerDriver(driver);
+
+        // 获取链接
+        Connection conn = DriverManager.getConnection(url, user, password);
+        System.out.println(conn);
+
+
+        Assert.assertNotNull(conn);
+
+        /*
+            不显示注册驱动的原因 -> 因为在这里自动注册了Driver
+                static {
+                        try {
+                            DriverManager.registerDriver(new Driver());
+                        } catch (SQLException var1) {
+                            throw new RuntimeException("Can't register driver!");
+                        }
+                }
+
+         */
+    }
+
 }
 
 
